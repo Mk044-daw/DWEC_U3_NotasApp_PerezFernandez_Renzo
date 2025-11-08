@@ -101,7 +101,7 @@ Capturas de resultado final:
   - Ventana emergente de confimación al borrar.  
   - Fullscreen activo/inactivo.
 
-Ubicadas en carpeta: `/evidencia`
+Ubicadas en carpeta: `evidencias/`
 
 ---
 
