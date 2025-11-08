@@ -1,0 +1,87 @@
+<!doctype html>
+<!--
+  Panel Diario — Ventana auxiliar
+  RF7: se abre desde la principal con window.open
+  RF10: recibe snapshot JSON autosuficiente { tipo, ts, filtro, notas }
+  Seguridad: valida ORIGEN y contrato; ignora mensajes ajenos
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Panel Diario — NotasApp</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; padding: 12px; background: #fafafa; }
+    header { display: flex; justify-content: space-between; align-items: center; }
+    h1 { font-size: 1.1rem; margin: 0; }
+    ul { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px; }
+    li { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 8px; display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+    .meta { font-size: .9rem; opacity: .8; }
+    .acciones { display: flex; gap: 6px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Panel Diario</h1>
+    <div><small>Filtro recibido: <span id="filtro"></span></small></div>
+  </header>
+  <main>
+    <ul id="lista"></ul>
+    <p id="info" aria-live="polite"></p>
+  </main>
+
+  <script>
+    const ORIGEN = location.origin; // RF7/RF10
+    const escapeHtml = s => String(s).replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
+
+    function formatDate(ymd){
+      try { return new Intl.DateTimeFormat(navigator.language||'es-ES', { dateStyle:'medium' }).format(new Date(ymd)); }
+      catch { return new Date(ymd).toLocaleDateString(); }
+    } // RF2
+
+    function pintar(snapshot){
+      const ul = document.getElementById('lista');
+      ul.innerHTML = "";
+      document.getElementById('filtro').textContent = snapshot.filtro;
+      if (!snapshot.notas.length){
+        document.getElementById('info').textContent = "No hay notas para mostrar.";
+        return;
+      }
+      document.getElementById('info').textContent = `Actualizado: ${new Date(snapshot.ts).toLocaleTimeString()}`;
+      for (const n of snapshot.notas){
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <div>
+            <div>${escapeHtml(n.texto)}</div>
+            <div class="meta">${formatDate(n.fecha)} · Prioridad ${n.prioridad}${n.completada?' · Completada':''}</div>
+          </div>
+          <div class="acciones">
+            <button data-id="${n.id}">Borrar</button>
+          </div>`;
+        li.querySelector('button').addEventListener('click', () => solicitarBorrado(n.id));
+        ul.append(li);
+      }
+    }
+
+    function solicitarBorrado(id){
+      try { window.opener && window.opener.postMessage({ tipo:'BORRADO', id }, ORIGEN); }
+      catch(e){ alert('No se pudo solicitar el borrado al panel principal.'); }
+    } // RF7
+
+    window.addEventListener('message', (ev) => {
+      if (ev.origin !== ORIGEN) return;                 // RF7 política de orígenes
+      if (!ev.data || typeof ev.data !== 'object') return;
+      if (ev.data.tipo !== 'SNAPSHOT') return;          // RF10 contrato
+      if (!Array.isArray(ev.data.notas) || typeof ev.data.ts!=='number' || !ev.data.filtro) return;
+      ev.data.notas = ev.data.notas.map(n => ({
+        id: Number(n.id)||Date.now(),
+        texto: String(n.texto||'').trim(),
+        fecha: String(n.fecha||'').slice(0,10),
+        prioridad: Math.max(1, Math.min(3, Number(n.prioridad)||2)),
+        completada: Boolean(n.completada)
+      }));
+      pintar(ev.data);
+    });
+  </script>
+</body>
+</html>

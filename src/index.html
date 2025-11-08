@@ -1,0 +1,78 @@
+<!doctype html>
+<!--
+  NotasApp — DWEC U3
+  Este archivo contiene la estructura general de la SPA y los puntos de anclaje de UI.
+  Referencias de requisitos (RFx):
+    - RF3: botones de filtro (#hoy, #semana, #todas)
+    - RF6: botón de pantalla completa
+    - RF7: botón para abrir Panel Diario (ventana secundaria)
+    - RF8: aria-live para feedback
+    - RF2: muestra del idioma detectado
+-->
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>NotasApp — DWEC U3</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>NotasApp</h1>
+    <!-- RF3: Filtros que disparan location.hash -->
+    <nav aria-label="Filtros">
+      <button id="btnHoy"    data-hash="#hoy">Hoy</button>
+      <button id="btnSemana" data-hash="#semana">Semana</button>
+      <button id="btnTodas"  data-hash="#todas">Todas</button>
+    </nav>
+    <div class="header-actions">
+      <!-- RF6: Control de pantalla completa -->
+      <button id="btnFullscreen" aria-pressed="false" title="Alternar pantalla completa">⛶</button>
+      <!-- RF7: Apertura del Panel Diario -->
+      <button id="btnPanel" title="Abrir Panel Diario">Abrir Panel Diario</button>
+    </div>
+  </header>
+
+  <main>
+    <section aria-labelledby="tituloNueva">
+      <h2 id="tituloNueva">Nueva nota</h2>
+      <!-- RF4 / RF5 / RF8: creación con validaciones y feedback -->
+      <form id="formNota">
+        <label>
+          Texto
+          <input id="txtNota" name="texto" type="text" required minlength="1" />
+        </label>
+        <label>
+          Fecha
+          <input id="fechaNota" name="fecha" type="date" required />
+        </label>
+        <label>
+          Prioridad
+          <select id="prioNota" name="prioridad">
+            <option value="3">Alta</option>
+            <option value="2" selected>Media</option>
+            <option value="1">Baja</option>
+          </select>
+        </label>
+        <button type="submit">Añadir</button>
+      </form>
+      <!-- RF8: aria-live para avisos en altas/errores -->
+      <p id="mensajes" aria-live="polite" class="sr"></p>
+    </section>
+
+    <section aria-labelledby="tituloListado">
+      <h2 id="tituloListado">Notas</h2>
+      <!-- RF4: render dinámico de tarjetas desde app.js/render() -->
+      <ul id="listaNotas" class="lista" aria-live="polite"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <!-- RF2: idioma detectado; RF3: filtro activo visible -->
+    <small>Idioma detectado: <span id="lang"></span> · Filtro: <span id="filtroActual"></span></small>
+  </footer>
+
+  <!-- Lógica principal -->
+  <script src="app.js" defer></script>
+</body>
+</html>
