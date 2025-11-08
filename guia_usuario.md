@@ -11,7 +11,7 @@
 
 ---
 
-## Tareas esenciales
+## Tareas Esenciales
 
 ### 1) Añadir una nota
 1. En “Nueva nota” escribe el **texto** de la nota.
@@ -48,14 +48,14 @@
 
 ---
 
-## Preferencias y persistencia
+## Preferencias y Persistencia
 - La app **recuerda** tus **notas** usando `localStorage`.  
 - El **filtro activo** se recuerda durante la **sesión** en `sessionStorage`.  
 - Si borras datos del navegador o usas incógnito, podrás perder el estado.
 
 ---
 
-## Resolución de problemas
+## Resolución de Problemas
 - **“No se abre el Panel”**:  
   - Habilita **pop-ups** para el sitio.  
   - Comprueba que no haya bloqueadores que impidan `window.open`.
@@ -70,14 +70,14 @@
 
 ---
 
-## Accesibilidad básica
+## Accesibilidad Básica
 - Mensajes de estado en elemento con `aria-live` para lectores de pantalla.  
 - Botón de filtro activo con `aria-current="page"`.  
 - Texto de usuario impreso como **texto escapado** (sin HTML ejecutable).
 
 ---
 
-## Notas técnicas (resumen para curiosos)
+## Notas Técnicas (resumen para curiosos)
 - SPA sin frameworks.  
 - Filtros de vista mediante `location.hash` y `hashchange`.  
 - Panel separado con `postMessage`, contrato de datos `{ tipo, ts, filtro, notas }` y validación de origen.  
