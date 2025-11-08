@@ -5,12 +5,20 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 ---
 
 ## Estructura del Proyecto
-- `index.html` — Estructura de la SPA, botones de filtros, pantalla completa y acceso al Panel Diario.
-- `styles.css` — Estilos base, marca visual por **prioridad** y **estado**, y resaltado del filtro activo.
-- `app.js` — Lógica de negocio y de interfaz (DOM, filtros por `location.hash`, persistencia, comunicación con el panel).
-- `panel.html` — Panel Diario: recibe *snapshot* autosuficiente y muestra notas relevantes.
-- `README.md` — Este documento.
-- `guia_usuario.md` — Guía breve para personas usuarias.
+- **src/** → Contiene los archivos principales de la aplicación:  
+  - `index.html`: interfaz principal de la SPA.  
+  - `app.js`: lógica del sistema, funciones principales, filtros y persistencia.  
+  - `panel.html`: ventana auxiliar (Panel Diario) con comunicación controlada.  
+  - `styles.css`: estilos de la aplicación, coherentes con las prioridades y estados.  
+- **evidencias/** → Carpeta con capturas de ejecución, pruebas y verificaciones de RF:  
+  - `pantallaprincipal.png`: vista principal de la aplicación.  
+  - `filtrodehoy.png`, `filtrodedesemana.png`: evidencias de los filtros activos.  
+  - `ventanapaneldiario.png`: muestra la apertura y comunicación del panel diario.  
+  - `ventanaconfirmacion.png`: ejemplo de interacción con el usuario.  
+  - `fullscreenactivo.png`: evidencia del modo pantalla completa.  
+- **guia_usuario.md** → Guía esquemática de uso y resolución de problemas.  
+- **README.md** → Documento técnico principal con requisitos RF, CT y mejoras.  
+- **.gitignore** → Archivos del sistema y temporales excluidos del control de versiones.  
 
 ---
 
