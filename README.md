@@ -5,23 +5,26 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 ---
 
 ## Estructura del proyecto
-
-│
+```text
+.
 ├─ src/
 │  ├─ index.html
 │  ├─ styles.css
 │  ├─ app.js
-│  └─ panel-diario.html
+│  └─ panel.html
+│
+├─ evidencias/
+│  ├─ filtrodehoy.png
+│  ├─ filtrodesemana.png
+│  ├─ fullscreenactivo.png
+│  ├─ pantallaprincipal.png
+│  ├─ ventanaconfirmacion.png
+│  └─ ventanapaneldiario.png
 │
 ├─ guia_usuario.md
 ├─ README.md
-├─ .gitignore
-│
-└─ evidencias/
-   ├─ commits.txt
-   ├─ tests.txt
-   ├─ screenshot_localstorage.png
-   └─ screenshot_console.png
+└─ .gitignore
+```
 
 ---
 
