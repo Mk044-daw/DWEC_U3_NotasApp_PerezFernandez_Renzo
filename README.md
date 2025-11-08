@@ -4,7 +4,7 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ---
 
-## Estructura del proyecto
+## Estructura del Proyecto
 - `index.html` — Estructura de la SPA, botones de filtros, pantalla completa y acceso al Panel Diario.
 - `styles.css` — Estilos base, marca visual por **prioridad** y **estado**, y resaltado del filtro activo.
 - `app.js` — Lógica de negocio y de interfaz (DOM, filtros por `location.hash`, persistencia, comunicación con el panel).
@@ -14,7 +14,7 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ---
 
-## Objetivos de aprendizaje (RA/CE)
+## Objetivos de Aprendizaje (RA/CE)
 **RA del módulo**: “Escribe código, identificando y aplicando las funcionalidades aportadas por los objetos predefinidos del lenguaje.”
 
 **CE (síntesis)**: objetos predefinidos; ventana/documento; generación de HTML; modificación de aspecto; interacción; cookies/almacenamiento; depuración y documentación.
@@ -32,7 +32,7 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ---
 
-## Requisitos funcionales (RF)
+## Requisitos Funcionales (RF)
 
 > En el código se han añadido comentarios de línea con etiquetas (RFx) que referencian estas secciones.
 
