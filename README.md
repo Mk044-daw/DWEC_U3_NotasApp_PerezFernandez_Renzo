@@ -112,16 +112,6 @@ Ubicadas en carpeta: `evidencias/`
 
 ---
 
-## Entrega
-- **GitHub**: sube el repo con `index.html`, `styles.css`, `app.js`, `panel.html`, `README.md`, `guia_usuario.md`.
-- **Trello**: tablero con listas `Backlog`, `En curso`, `En revisión`, `Hecho` (+ `Bloqueos/Riesgos` opcional).  
-  - Tarjetas = historias de usuario (del enunciado) con criterios de aceptación y **checklists** (Desarrollo, Pruebas/Depuración, Documentación).  
-  - **Definition of Done**: cumple criterios, incluye evidencias de depuración y documentación.  
-  - Añade al profesor como miembro: `juan.ramirez46@educa.madrid.org`.
-- Incluye **enlaces** a Trello y GitHub en la plataforma/entrega final.
-
----
-
 ## Asistencia y Referencias
 
 Durante el desarrollo del proyecto se utilizó **inteligencia artificial (IA)** como herramienta de apoyo **exclusivamente en tareas de documentación, organización del código y mejora estructural**, sin delegar en ella la totalidad de la implementación.
