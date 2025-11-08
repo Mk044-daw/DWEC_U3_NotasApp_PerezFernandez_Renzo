@@ -19,7 +19,7 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 **CE (síntesis)**: objetos predefinidos; ventana/documento; generación de HTML; modificación de aspecto; interacción; cookies/almacenamiento; depuración y documentación.
 
-### Matriz RA–CE (resumen)
+### Matriz RA–CE
 | Área | Implementación | Archivo(s) |
 |-----|-----------------|------------|
 | **Objetos nativos** (Date/Math/String/Number) | Normalización y comparación de fechas, clamp de prioridad, limpieza de cadenas, ordenación | `app.js` |
@@ -32,7 +32,7 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ---
 
-## ✅ Requisitos funcionales (RF) — Cómo se cumplen
+## Requisitos funcionales (RF)
 
 > En el código se han añadido comentarios de línea con etiquetas (RFx) que referencian estas secciones.
 
@@ -67,7 +67,7 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ---
 
-## Persistencia: **Web Storage** vs **Cookies** (justificación)
+## Persistencia: **Web Storage** vs **Cookies**
 
 - **Elegido**: **Web Storage**  
   - `localStorage` para **notas** → mayor tamaño (~5–10 MB aprox.), **no se envían** a servidor, API simple.  
@@ -81,26 +81,27 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ---
 
-## Seguridad y compatibilidad
+## Seguridad y Compatibilidad
 
 - **`postMessage`**: solo a `location.origin` y se **valida `ev.origin`** al recibir. Ignora mensajes ajenos al **contrato** (tipo, estructura).  
 - **Escape de HTML**: el texto de las notas se inyecta **escapado** con `escapeHtml`.  
 - **Fullscreen**: algunos navegadores requieren **gesto del usuario**; en iOS/Safari puede estar limitado.  
 - **Pop-ups**: si están bloqueados, la app informa para permitir el Panel.
 
-### Navegadores objetivo
+### Navegadores Objetivo
 - Chrome/Edge/Firefox recientes. Safari moderno soporta la mayor parte pero con limitaciones en Fullscreen.
 
 ---
 
-## Pruebas / Evidencias de depuración (sugerencias)
-- Capturas de:  
-  - Añadir/validar/borrar (mensajes y confirmaciones).  
-  - `hashchange` con cambio de filtro y resaltado del botón.  
-  - `localStorage`/`sessionStorage` mostrando el estado.  
-  - Mensajes en consola (`console.warn`) ante corrupción o envío de snapshot.  
-  - Bloqueo de pop-ups y manejo del error.  
+## Pruebas / Evidencias de Depuración
+Capturas de resultado final:  
+  - Visualización de página principal.  
+  - Ventana emergente de **Panel Diario**.  
+  - Funcionalidades de los estados `#hoy`, `#semana`, `#todas`.  
+  - Ventana emergente de confimación al borrar.  
   - Fullscreen activo/inactivo.
+
+Ubicadas en carpeta: `/evidencia`
 
 ---
 
@@ -111,7 +112,7 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ---
 
-## Entrega (RF13)
+## Entrega
 - **GitHub**: sube el repo con `index.html`, `styles.css`, `app.js`, `panel.html`, `README.md`, `guia_usuario.md`.
 - **Trello**: tablero con listas `Backlog`, `En curso`, `En revisión`, `Hecho` (+ `Bloqueos/Riesgos` opcional).  
   - Tarjetas = historias de usuario (del enunciado) con criterios de aceptación y **checklists** (Desarrollo, Pruebas/Depuración, Documentación).  
@@ -121,17 +122,19 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ---
 
-## Asistencia, generación y referencias utilizadas
+## Asistencia y Referencias
 
 Durante el desarrollo del proyecto se utilizó **inteligencia artificial (IA)** como herramienta de apoyo **exclusivamente en tareas de documentación, organización del código y mejora estructural**, sin delegar en ella la totalidad de la implementación.
 
 En concreto:
 - Se empleó IA para **comentar el código** y **documentar la relación entre requisitos funcionales (RF1–RF13)** y sus respectivas secciones dentro del proyecto.  
-- La **Mejora B (avanzada)** —relativa al uso de `sessionStorage` para mantener el filtro activo durante la sesión y el envío del **snapshot JSON** al Panel Diario mediante `postMessage` con validación de origen— fue generada inicialmente con ayuda de IA, y posteriormente **verificada y adaptada manualmente** para ajustarse a la estructura simplificada del código base.  
-- También se utilizó asistencia de IA para diseñar el **esquema de comunicación segura entre ventanas** (contrato `{ tipo, ts, filtro, notas }`), asegurando que el **Panel Diario** fuera autosuficiente y cumpliese las políticas de origen y seguridad requeridas.  
-- Se apoyó el desarrollo en IA para los **comentarios explicativos por cada requisito (RF)**, la redacción del **README**, la **Guía de usuario** y la **verificación del cumplimiento de los criterios técnicos mínimos (CT1–CT7)**.
+- Se empleó IA como apoyo en la definición y mejora de funciones específicas, como `sanitizeNota()` y `escapeHtml()`, cuyo propósito es sanear y validar los datos introducidos por el usuario, evitando inyecciones de código o errores de formato.
+- Se empleó IA en la **Mejora B (avanzada)** relativa al uso de `sessionStorage` para mantener el filtro activo durante la sesión y el envío del **snapshot JSON** al Panel Diario mediante `postMessage` con validación de origen— fue generada inicialmente con ayuda de IA, y posteriormente **verificada y adaptada manualmente** para ajustarse a la estructura simplificada del código base.  
+- Se empleó IA para diseñar el **esquema de comunicación segura entre ventanas** (contrato `{ tipo, ts, filtro, notas }`), asegurando que el **Panel Diario** fuera autosuficiente y cumpliese las políticas de origen y seguridad requeridas.  
+- Se empleó IA para los **comentarios explicativos por cada requisito (RF)**, la redacción del **README**, la **Guía de usuario** y la **verificación del cumplimiento de los criterios técnicos mínimos (CT1–CT7)**.
 
-El código, las pruebas y las decisiones finales de diseño fueron **revisadas, depuradas y adaptadas manualmente** por el autor para garantizar coherencia con la base original entregada.
+
+El código, las pruebas y las decisiones finales de diseño fueron **revisadas, depuradas y adaptadas manualmente** por los autores para garantizar coherencia con la base original entregada.
 
 ### Fuentes de documentación complementarias
 Durante el desarrollo se consultaron recursos didácticos y de referencia reconocidos, entre ellos:
@@ -144,5 +147,6 @@ Estas fuentes se utilizaron como **guía conceptual y de referencia técnica**, 
 
 ---
 
-## 📄 Licencia
-Uso educativo.
+## Autoría
+- Pérez Fernandez, Miguel Ángel
+- Robles Zegarra, Renzo Jesús
