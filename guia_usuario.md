@@ -1,4 +1,4 @@
-# Guía de usuario — NotasApp
+# Guía de usuario
 
 **Propósito**: Aplicación sencilla para crear y gestionar recordatorios, filtrarlos por **Hoy / Semana / Todas** y visualizar el **Panel Diario** en una ventana separada.
 
