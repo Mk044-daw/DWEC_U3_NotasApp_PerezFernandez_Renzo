@@ -6,7 +6,6 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 
 ## Estructura del proyecto
 ```text
-.
 ├─ src/
 │  ├─ index.html
 │  ├─ styles.css
