@@ -30,7 +30,6 @@ Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Ho
 │  │
 │  └─ ventanapaneldiario.png
 │
-│
 ├─ guia_usuario.md
 │
 ├─ README.md
