@@ -1,113 +1,148 @@
-# DWEC_U3_NotasApp_PerezFernandez_Renzo
-Reto ABP: Tablon de notas inteligente (Unidad 3 DWEC)
+# NotasApp — DWEC U3 (SPA sin frameworks)
+
+Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Hoy / Semana / Todas**, **persistencia en navegador**, y **Panel Diario** en ventana separada con comunicación segura mediante `postMessage`.
+
+---
 
 ## Estructura del proyecto
-
-	├─ src/
-
-		│  ├─ index.html
-
-		│  ├─ styles.css
-
-		│  ├─ app.js
-
-		│  └─ panel-diario.html
-
-	├─ guia_usuario.md
-
-	├─ README.md
-
-		└─ evidencias/
-
-  	├─ commits.txt
-	 
- 	├─ tests.txt
-	 
-	├─ screenshot_localstorage.png
-	 
-	   └─ screenshot_console.png
-## Objetivo
-> Aplicación web que permite **crear, gestionar y filtrar notas o recordatorios personales**, aplicacando el uso de objetos predefinidos como **Date, Math, String** , almacenamiento local y comunicacion entre ventanas.
+- `index.html` — Estructura de la SPA, botones de filtros, pantalla completa y acceso al Panel Diario.
+- `styles.css` — Estilos base, marca visual por **prioridad** y **estado**, y resaltado del filtro activo.
+- `app.js` — Lógica de negocio y de interfaz (DOM, filtros por `location.hash`, persistencia, comunicación con el panel).
+- `panel.html` — Panel Diario: recibe *snapshot* autosuficiente y muestra notas relevantes.
+- `README.md` — Este documento.
+- `guia_usuario.md` — Guía breve para personas usuarias.
 
 ---
 
-## Funcionalidades principales
+## Objetivos de aprendizaje (RA/CE)
+**RA del módulo**: “Escribe código, identificando y aplicando las funcionalidades aportadas por los objetos predefinidos del lenguaje.”
 
-> Uso de objetos nativos: `Date`, `Math`, `String`, `Number`.
+**CE (síntesis)**: objetos predefinidos; ventana/documento; generación de HTML; modificación de aspecto; interacción; cookies/almacenamiento; depuración y documentación.
 
-> Filtros con `location.hash` (`#todas`, `#hoy`, `#semana`).
-
-> Generación de HTML por código (crear, actualizar, borrar).
-
-> Panel Diario (ventana secundaria + `postMessage` seguro).
-
-> Persistencia con **localStorage**.
-
-> Control básico de viewport, scroll y fullscreen.
-
-> Confirmaciones y mensajes de usuario.
-
-> Detección de idioma del navegador (`navigator.language`).
+### Matriz RA–CE (resumen)
+| Área | Implementación | Archivo(s) |
+|-----|-----------------|------------|
+| **Objetos nativos** (Date/Math/String/Number) | Normalización y comparación de fechas, clamp de prioridad, limpieza de cadenas, ordenación | `app.js` |
+| **Interacción con navegador** | `navigator.language`, `location.hash`, Fullscreen API | `app.js`, `index.html` |
+| **Generación de HTML** | Render dinámico de tarjetas con DOM API | `app.js` |
+| **Apariencia/viewport** | Scroll a lista tras añadir, fullscreen; marcas por prioridad/estado | `app.js`, `styles.css` |
+| **Ventanas y comunicación** | `window.open`, `postMessage` con **validación de origen** y **contrato de datos** | `app.js`, `panel.html` |
+| **Persistencia en navegador** | `localStorage` (notas) y `sessionStorage` (filtro activo) | `app.js` |
+| **Depuración y documentación** | `console.warn` y comentarios críticos; este README y guía de usuario | `app.js`, docs |
 
 ---
 
-## Justificacion del uso de Web Storage
+## ✅ Requisitos funcionales (RF) — Cómo se cumplen
 
-Se eligio **localStorage** frente a cookies debido a que:
->Permite almacenar hasta 5MB de datos frente a solo 4KB.
+> En el código se han añadido comentarios de línea con etiquetas (RFx) que referencian estas secciones.
 
->No viaja con cada peticion HTTP -> mejora el rendimiento.
-
->Es mas sencillo de usar con JSON.
-
->Persistente incluso al cerrar el navegador.
-
----
-
-## Matriz RA-CE
-	| Resultado de Aprendizaje (RA) | Criterio de Evaluación (CE) | Evidencia en el Proyecto |
-	
-	
-	
-	| RA1 : Escribe código aplicando la sintaxis del lenguaje. | CE1.1 Usa objetos predefinidos del lenguaje con propósito claro. | Uso de `Date`, `Math`, `String`, `Number` en app.js para fechas, IDs y formato. |
-	| RA2: Genera interfaces dinámicas en cliente. | CE2.1 Manipula el DOM de forma segura (crear/actualizar/eliminar nodos). | Funciones de renderizado dinámico y actualización en tiempo real. |
-	| RA3: Implementa gestión de estado y almacenamiento. | CE3.1 Elige y justifica cookies o Web Storage. |Justificación del uso de `localStorage` (persistencia local, sin tráfico HTTP). |
-	| RA4 : Implementa control de eventos y navegación. | E4.1 Usa `location.hash` y escucha `hashchange`. | Filtros de notas por `#hoy`, `#favoritas`, `#tag/...`. |
-	| RA5 : Asegura comunicación entre ventanas. | CE5.1 Abre ventana (Panel Diario) y valida origen. | Comunicación mediante `postMessage` validado. |
-	| RA6: Usa control de viewport y responsive. | CE6.1 Ajusta la interfaz según `window.innerWidth`. | Adaptación a móvil, scroll automático y fullscreen. |
-	| RA7: Documenta y presenta el trabajo. | CE7.1 Entrega guía de usuario, evidencias y repositorio. | Archivos `README.md`, `guia_usuario.md`, `evidencias/`. |
-
----
-
-## Evidencias depuracion
--Capturas en carpeta `Evidencias`.
-
--Consola: mensajes de carga, errores y guardado.
-
--Validacion de datos y postMessage.
+- **RF1. Objetos nativos (`Date`, `Math`, `String`, `Number`)**  
+  - Fechas: `inicioDeDia`, `finDeDia`, `hoyYMD`, `ymdToDate`, `enRangoIncl`, `formatDate`.  
+  - Prioridad y números: `sanitizeNota` (clamp 1..3) y `ordenarNotas`.  
+  - Cadenas: `sanitizeNota` y `escapeHtml`.
+- **RF2. Idioma del navegador**  
+  - `lang = navigator.language` y `Intl.DateTimeFormat(lang, {dateStyle:'medium'})`; además se muestra el idioma en el pie.
+- **RF3. Filtros con `location.hash`**  
+  - Estados `#hoy`, `#semana`, `#todas`; `hashchange` → `aplicarFiltroHash()`; resaltado `.activo` / `aria-current`.
+- **RF4. Generación dinámica de HTML**  
+  - `render()` crea/actualiza tarjetas; sin plantillas preexistentes; entradas escapadas con `escapeHtml`.
+- **RF5. Prioridades y validaciones**  
+  - Orden: no completadas → prioridad **DESC** → fecha ASC → texto ASC; validaciones de texto/fecha y confirmación al borrar.
+- **RF6. Viewport/scroll/pantalla completa**  
+  - `scrollIntoView` tras crear; botón **⛶** con Fullscreen API y fallback vía `alert`.
+- **RF7. Ventana auxiliar (Panel Diario) y comunicación**  
+  - `window.open('panel.html')`; `postMessage` **con origen validado** y **tipo de mensaje** (contrato).
+- **RF8. Interacción con el usuario**  
+  - `alert`/`confirm`; feedback accesible con `aria-live` en altas/errores/acciones.
+- **RF9. Persistencia local (elección justificada)**  
+  - `localStorage` → **notas**; `sessionStorage` → **filtro activo**. Manejo de corrupción con `try/catch` y saneo defensivo.
+- **RF10. Snapshot al Panel**  
+  - Envío `{ tipo:'SNAPSHOT', ts, filtro, notas }` y recepción con validación estricta; el Panel es autosuficiente.
+- **RF11. Guía de usuario**  
+  - Incluida como `guia_usuario.md` (1–2 páginas).
+- **RF12. Depuración y documentación técnica**  
+  - Comentarios críticos + `console.warn` en persistencia/comunicación; esta documentación.
+- **RF13. Gestión del proyecto en Trello y GitHub**  
+  - Añadir tablero y repo (ver sección “Entrega”).
 
 ---
 
-## Enlaces
--Trello: https://trello.com/b/uw06MPRm/dwec-u-notasappperezfernandezrenzo
+## Persistencia: **Web Storage** vs **Cookies** (justificación)
 
--GitHub: https://github.com/Mk044-daw/DWEC_U3_NotasApp_PerezFernandez_Renzo
-
----
-
-
-## IA 
-> Se utilizo para generar plantillas de codigo y documentacion.
-
-> Todos los fragmentos fueron revisados y adaptados manualmente por los autores. 
-
----
-
-## Autores
-> Jesus Renzo
-
-> Miguel Angel Perez
+- **Elegido**: **Web Storage**  
+  - `localStorage` para **notas** → mayor tamaño (~5–10 MB aprox.), **no se envían** a servidor, API simple.  
+  - `sessionStorage` para **filtro activo** → estado efímero por pestaña/sesión (alineado con “Mejora B”).
+- **Por qué no Cookies**:  
+  - Límite de ~4 KB por cookie, se **envían en cada petición** HTTP, complejidad de caducidades y política SameSite.  
+  - Riesgos de exposición si no hay HTTPS; aquí no hay necesidad de ser leídas por servidor.
+- **Implicaciones**:  
+  - Borrar datos del navegador o usar navegación privada elimina el estado.  
+  - En equipos públicos, cerrar sesión/ventana limpia el `sessionStorage` (solo filtro).
 
 ---
 
+## Seguridad y compatibilidad
 
+- **`postMessage`**: solo a `location.origin` y se **valida `ev.origin`** al recibir. Ignora mensajes ajenos al **contrato** (tipo, estructura).  
+- **Escape de HTML**: el texto de las notas se inyecta **escapado** con `escapeHtml`.  
+- **Fullscreen**: algunos navegadores requieren **gesto del usuario**; en iOS/Safari puede estar limitado.  
+- **Pop-ups**: si están bloqueados, la app informa para permitir el Panel.
+
+### Navegadores objetivo
+- Chrome/Edge/Firefox recientes. Safari moderno soporta la mayor parte pero con limitaciones en Fullscreen.
+
+---
+
+## Pruebas / Evidencias de depuración (sugerencias)
+- Capturas de:  
+  - Añadir/validar/borrar (mensajes y confirmaciones).  
+  - `hashchange` con cambio de filtro y resaltado del botón.  
+  - `localStorage`/`sessionStorage` mostrando el estado.  
+  - Mensajes en consola (`console.warn`) ante corrupción o envío de snapshot.  
+  - Bloqueo de pop-ups y manejo del error.  
+  - Fullscreen activo/inactivo.
+
+---
+
+## Cómo ejecutar
+1. Abrir `index.html` con un servidor estático (recomendado “Live Server” de VS Code).  
+2. Permitir pop-ups para que el **Panel Diario** funcione correctamente.  
+3. Probar filtros (`Hoy/Semana/Todas`) y abrir el Panel.  
+
+---
+
+## Entrega (RF13)
+- **GitHub**: sube el repo con `index.html`, `styles.css`, `app.js`, `panel.html`, `README.md`, `guia_usuario.md`.
+- **Trello**: tablero con listas `Backlog`, `En curso`, `En revisión`, `Hecho` (+ `Bloqueos/Riesgos` opcional).  
+  - Tarjetas = historias de usuario (del enunciado) con criterios de aceptación y **checklists** (Desarrollo, Pruebas/Depuración, Documentación).  
+  - **Definition of Done**: cumple criterios, incluye evidencias de depuración y documentación.  
+  - Añade al profesor como miembro: `juan.ramirez46@educa.madrid.org`.
+- Incluye **enlaces** a Trello y GitHub en la plataforma/entrega final.
+
+---
+
+## Asistencia, generación y referencias utilizadas
+
+Durante el desarrollo del proyecto se utilizó **inteligencia artificial (IA)** como herramienta de apoyo **exclusivamente en tareas de documentación, organización del código y mejora estructural**, sin delegar en ella la totalidad de la implementación.
+
+En concreto:
+- Se empleó IA para **comentar el código** y **documentar la relación entre requisitos funcionales (RF1–RF13)** y sus respectivas secciones dentro del proyecto.  
+- La **Mejora B (avanzada)** —relativa al uso de `sessionStorage` para mantener el filtro activo durante la sesión y el envío del **snapshot JSON** al Panel Diario mediante `postMessage` con validación de origen— fue generada inicialmente con ayuda de IA, y posteriormente **verificada y adaptada manualmente** para ajustarse a la estructura simplificada del código base.  
+- También se utilizó asistencia de IA para diseñar el **esquema de comunicación segura entre ventanas** (contrato `{ tipo, ts, filtro, notas }`), asegurando que el **Panel Diario** fuera autosuficiente y cumpliese las políticas de origen y seguridad requeridas.  
+- Se apoyó el desarrollo en IA para los **comentarios explicativos por cada requisito (RF)**, la redacción del **README**, la **Guía de usuario** y la **verificación del cumplimiento de los criterios técnicos mínimos (CT1–CT7)**.
+
+El código, las pruebas y las decisiones finales de diseño fueron **revisadas, depuradas y adaptadas manualmente** por el autor para garantizar coherencia con la base original entregada.
+
+### Fuentes de documentación complementarias
+Durante el desarrollo se consultaron recursos didácticos y de referencia reconocidos, entre ellos:
+
+- [MDN Web Docs (Mozilla Developer Network)](https://developer.mozilla.org/) — documentación oficial de APIs web, objetos predefinidos y métodos DOM.
+- [W3Schools JavaScript Reference](https://www.w3schools.com/js/) — consultas básicas sobre sintaxis, métodos y ejemplos de `localStorage`, `postMessage`, y `Date`.
+- **Consola del navegador / DevTools** — para verificación de persistencia, comunicación entre ventanas y pruebas de Fullscreen API.
+
+Estas fuentes se utilizaron como **guía conceptual y de referencia técnica**, no como plantillas de código.
+
+---
+
+## 📄 Licencia
+Uso educativo.
