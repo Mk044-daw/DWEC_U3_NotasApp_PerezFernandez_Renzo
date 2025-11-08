@@ -1,4 +1,4 @@
-# NotasApp — DWEC U3 (SPA sin frameworks)
+# NotasApp — DWEC U3
 
 Mini-aplicación para crear y gestionar notas/recordatorios con filtros por **Hoy / Semana / Todas**, **persistencia en navegador**, y **Panel Diario** en ventana separada con comunicación segura mediante `postMessage`.
 
